@@ -1,6 +1,6 @@
 import logging
 from aiogram import executor, types
-from bot_settings import dp
+from bot_settings import dp, your_id
 
 logging.basicConfig(level=logging.INFO)
 
@@ -10,6 +10,17 @@ async def send_welcome(message: types.Message):
     """
     This handler will be called when user sends `/start` or `/help` command
     """
+    await message.reply("Hi!\nI'm EchoBot!\nPowered by aiogram.")
+
+
+@dp.message_handler(commands=['info'])
+async def show_info(message: types.Message):
+    """
+    This handler will show bot information.
+    """
+    if message.from_user.id != your_id:
+        return await message.reply("Sorry, you do not have permission to use this bot.")
+
     await message.reply("Hi!\nI'm EchoBot!\nPowered by aiogram.")
 
 
