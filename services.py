@@ -1,19 +1,15 @@
-import logging
 import wikipedia
 from aiogram import types
-from datetime import datetime
-
-from bot_settings import bot, dp
+from bot_settings import dp
 from utils import user_is_allowed
 
-logging.basicConfig(level=logging.INFO)
-
-# requested_at = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+from logger import logger_info
 
 
 @dp.message_handler(commands=['start', 'info'])
 async def send_welcome(message: types.Message):
     """ This handler will be called when user sends `/start` or `/help` command """
+    logger_info(send_welcome)
 
     await message.reply("Hi!\n"
                         "I'm Random Wiki Learner Bot!\n"
@@ -24,6 +20,7 @@ async def send_welcome(message: types.Message):
 @dp.message_handler(commands=['help'])
 async def show_info(message: types.Message):
     """ This handler will show bot information. """
+    logger_info(show_info)
 
     await message.reply("Commands:\n"
                         "   * /start - to start chat with bot.\n"
@@ -35,6 +32,7 @@ async def show_info(message: types.Message):
 @dp.message_handler(commands=['get_random'])
 async def get_random(message: types.Message):
     """ This handler will show random article from wikipedia. """
+    logger_info(get_random)
 
     if not user_is_allowed(message):
         return await message.reply("Sorry, you do not have permission to use this bot.")
@@ -52,25 +50,12 @@ async def get_random(message: types.Message):
 @dp.message_handler(commands=['search'])
 async def search_page(message: types.Message):
     """ This handler enables to search article in wikipedia. """
+    logger_info(search_page)
 
     if not user_is_allowed(message):
         return await message.reply("Sorry, you do not have permission to use this bot.")
 
-    msg = await bot.send_message(message.from_user.id, "Enter your search topic")
-
-    print(msg.text)
-
-    # try:
-    #
-    # except wikipedia.exceptions.DisambiguationError as e:
-    #     await message.reply("Page not found.")
-
-    # random_wiki_page = wikipedia.random(1)
-    #
-    # result = wikipedia.page(random_wiki_page)
-    # # print(result.summary)
-    # await message.reply(f"Today's article is dedicated to {result.title}.\n"
-    #                     f"To learn more: {result.url}", reply=False)
+    await message.reply("Sorry, this command is under development...", reply=False)
 
 
 @dp.message_handler()
