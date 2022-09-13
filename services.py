@@ -1,8 +1,8 @@
 import wikipedia
 from aiogram import types
 from bot_settings import dp
+from db_api.db_commands import add_user
 from utils import user_is_allowed
-
 from logger import logger_info
 
 
@@ -10,6 +10,7 @@ from logger import logger_info
 async def send_welcome(message: types.Message):
     """ This handler will be called when user sends `/start` or `/help` command """
     logger_info(send_welcome)
+    await add_user(message)
 
     await message.reply("Hi!\n"
                         "I'm Random Wiki Learner Bot!\n"
